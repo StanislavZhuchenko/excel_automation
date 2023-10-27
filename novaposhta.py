@@ -1,11 +1,10 @@
 import requests
 import json
-from secret_data import token_novaposhta as token
+from secret_folder.secret_data import token_novaposhta as token
 
 
 def novaposhta_get_barcode(list_of_ttn):
     """
-
     :param list_of_ttn: list of data with dict with keys "DocumentNumber" and "Phone"(optional)
     :return: dict with keys "DocumentNumber" and values "ClientBarcode"
     """
