@@ -21,6 +21,8 @@ for data in zip(ttn_obj, amount_obj, state_obj, date_obj):
         documents.append(
             {"DocumentNumber": ttn},
         )
+    else:
+        sheet_obj.delete_rows(data[0].row)
 
 sheet_obj.insert_cols(4)
 
@@ -30,10 +32,6 @@ for ttn in ttn_obj:
     if ttn.value in barcode:
         value_to_set = barcode[ttn.value]
         sheet_obj.cell(row=ttn.row, column=4, value=value_to_set)
-
-# for i in sheet_obj['D']:
-#     if not i.value:  # if ttn haven't barcode
-#         sheet_obj.delete_rows(i.row)
 
 sheet_obj.delete_cols(5)
 
