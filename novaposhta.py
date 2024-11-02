@@ -12,7 +12,7 @@ def novaposhta_get_barcode(list_of_ttn):
 
     data = {
         "apiKey": token,
-        "modelName": "TrackingDocument",
+        "modelName": "TrackingDocumentGeneral",
         "calledMethod": "getStatusDocuments",
         "methodProperties": {
             "Documents": list_of_ttn

@@ -2,10 +2,11 @@ import time
 import gspread
 from excel_modifying import sheet_obj
 from collections import namedtuple
+from secret_folder.secret_data import sheet_name, sheet_name2
 
 gc = gspread.service_account(filename='secret_folder/service_account.json')
 
-sh = gc.open("Test table")
+sh = gc.open(sheet_name2)
 
 order = namedtuple('order', ['ttn', 'amount'])
 # temporary_ttn = ['20450797682084',
@@ -32,6 +33,8 @@ for order in list_of_order:
     if row1:
         g_sheet_amount = int(sh.sheet1.cell(row=row1.row, col=10).value)
     else:
+        print('TTN not found in the sheet')
+        time.sleep(5)
         continue
     if g_sheet_amount == order.amount:
         sh.sheet1.update_cell(row=row1.row, col='11', value=order.amount)
@@ -51,10 +54,12 @@ for order in list_of_order:
                                  },
                          }
                          )
+        # print(f"{sh.sheet1.cell(row=row1.row, col='2').value} - is added by TTN {ttn}")
+        print(f"{ttn} is added")
     else:
         print(f"Amount of money from Google Sheets don't equal from Novaposhta, TTN: {ttn}")
 
-    time.sleep(10)
+    time.sleep(5)
     t += 1
     if t == 9:
         time.sleep(30)
