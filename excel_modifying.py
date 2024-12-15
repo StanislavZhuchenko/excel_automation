@@ -1,12 +1,12 @@
 import openpyxl
 from novaposhta import novaposhta_get_barcode
 
-file = '/Users/stanislav_zhucenko/PycharmProjects/excel_automation/test_data/report_moneytransfers_27-10-2024_13-56.xlsx'
+file = '/Users/stanislav_zhucenko/PycharmProjects/excel_automation/test_data/report_moneytransfers_25-11-2024_10-07.xlsx'
 workbook_obj = openpyxl.load_workbook(filename=file)
 
 sheet_obj = workbook_obj.active
 
-input_date = '26.10.2024'  # Choose the date of change in the state of money transfer
+input_date = '25.11.2024'  # Choose the date of change in the state of money transfer
 ttn_obj = sheet_obj['C']  # The column with TTN
 amount_obj = sheet_obj['E']  # The column with the amount of money to the TTN
 state_obj = sheet_obj['O']  # The column with state of money transfer
@@ -18,6 +18,7 @@ for data in zip(ttn_obj, amount_obj, state_obj, date_obj):
     ttn, amount, state, datetime_obj = data[0].value, data[1].value, data[2].value, data[3].value
     date = datetime_obj.split(' ')[0]  # Removing time from the date
     if state == 'Видано' and date == input_date:
+    # if state == "Готово до видачі":
         documents.append(
             {"DocumentNumber": ttn},
         )
@@ -43,7 +44,7 @@ for ttn in ttn_obj:
 
 sheet_obj.delete_cols(5)
 
-filename = 'mod.xlsx'
+filename = f"{input_date}.xlsx"
 workbook_obj.save(filename=filename)
 
 print(f"Your file {filename} is already done!")
